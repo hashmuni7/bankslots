@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => 'http://localhost/bankslots/public',
+    'asset_url' => env('ASSET_URL', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ return [
     |
     */
 
-    'app_url' => 'http://localhost/bankslots/public',
+    'app_url' => env('APP_URL', 'http://localhost/bankslots/'),
 
     /*
     |--------------------------------------------------------------------------
