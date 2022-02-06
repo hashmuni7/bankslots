@@ -14,27 +14,24 @@ class MarketVendors extends DataTableComponent
 {
     use Figures;
     use LivewireAlert;
-    protected $listeners = ['refreshComponent' => '$refresh'];
+    public $activeVendor;
+    protected $listeners = [
+        'refreshComponent' => '$refresh',
+        'checkConfirmation' => 'alertConfirmed'
+    ];
     public function columns(): array
     {
         return [
             Column::make('Action', 'marketvendorid')
                 ->format(function($value, $column, $row) {
                     
-                    return '<a class="ws-normal pointer btn btn-xs" onclick="window.scrollTo(0, 0);" wire:click="update('. $value .')"><i class="icons icon-options"></i></a>';
+                    return '<a class="ws-normal pointer btn " href="'. url("/updatevendor/$value") .'"><i class="fas fa-edit"></i></a>
+                    <a class="ws-normal pointer btn " wire:click="deleteVendor('. $value .')"><i class="fas fa-trash"></i></a>';
                 })
                 ->asHtml(),
             Column::make("Name", "holder")
-                ->sortable(),
-            Column::make("Gender", "gender")
-                ->format(function($value){
-                    if($value == 1){return "Male";}elseif($value == 0){return "Female";}
-                })
-                ->sortable(),
-            Column::make("Phone", "phonenumber")
-                ->sortable(),
-            Column::make("NIN", "nin")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Residence", "residenceplace")
                 ->sortable(),
             Column::make("Market", "marketname")
@@ -45,8 +42,6 @@ class MarketVendors extends DataTableComponent
                     ->format(function($value){
                         return $this->ugx($value);
                     })
-                ->sortable(),
-            Column::make("Account ", "accountnumber")
                 ->sortable(),
             Column::make("Registered By", "registrar")
                 ->sortable(),
@@ -73,5 +68,29 @@ class MarketVendors extends DataTableComponent
         //     'timer' =>  3000,  
         //     'toast' =>  true,  
         // ]);
+    }
+
+    public function deleteVendor($vendorid)
+    {
+        $this->activeVendor = $vendorid;
+        $this->alert('question', 'Are you sure about this?' , [
+            'position' =>  'center', 
+            'toast' => false,
+            'showConfirmButton' => true,
+            'onConfirmed' => "checkConfirmation"  
+        ]);
+        
+        
+        
+    }
+
+    public function alertConfirmed()
+    {
+        $holder = Marketvendor::where('marketvendorid', $this->activeVendor)->delete();
+        $this->alert('success', 'Vendor Deleted' , [
+            'position' =>  'top-end', 
+            'timer' =>  3000,  
+            'toast' =>  true,  
+        ]);
     }
 }

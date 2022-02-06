@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Pages;
 
 use App\Models\Marketvendor;
+use App\Models\User;
 use Livewire\Component;
 
 class Dash extends Component
@@ -17,7 +18,7 @@ class Dash extends Component
     public function mount()
     {
         $this->accountHolders = Marketvendor::all()->count();
-        $this->users = Marketvendor::all()->count();
+        $this->users = User::all()->count();
     }
 
 

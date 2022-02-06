@@ -46,6 +46,7 @@
         <link rel="stylesheet" href="{{ URL::asset('css/custom.css') }}">        
         <!--link rel="stylesheet" href="{{ URL::asset('css/autocss.css') }}"--> 
 		<link rel="stylesheet" href="{{ URL::asset('css/jquery-confirm.min.css') }}">
+        <link rel="stylesheet" href="{{ URL::asset('vendor/bootstrap-fileupload/bootstrap-fileupload.min.css') }}" />
 
 		<!-- Head Libs  -->
         <script src="{{ URL::asset('vendor/modernizr/modernizr.js') }}"></script>
@@ -57,6 +58,7 @@
         <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
 
         <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+
         @yield('pagecs')
         @livewireStyles
 
@@ -170,20 +172,32 @@
                                         <li class="nav-parent">
                                             <a class="nav-link" href="#">
                                                 <i class="fas fa-columns" aria-hidden="true"></i>
-                                                <span>New Registration</span>
+                                                <span>Vendors</span>
                                             </a>
+                                            
                                             <ul class="nav nav-children">
                                                 <li>
                                                     <a class="nav-link" href="{{ url('/newholders') }}">
-                                                      New Account Holder
+                                                      New Vendor
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="nav-link" href="{{ url('/vendors') }}">
+                                                      Registered Vendors
                                                     </a>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li>
                                             <a class="nav-link" href="{{ url('/markets') }}">
-                                                <i class="fas fa-shop" aria-hidden="true"></i>
+                                                <i class="fas fa-building" aria-hidden="true"></i>
                                                 <span>Markets</span>
+                                            </a>                        
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" href="{{ url('/districts') }}">
+                                                <i class="fas fa-home" aria-hidden="true"></i>
+                                                <span>Districts</span>
                                             </a>                        
                                         </li>                                  
                                     </ul>
@@ -336,6 +350,9 @@
             <script src="{{ URL::asset('js/html2pdf.min.js') }}"></script>
             <script src="{{ URL::asset('js/jspdf.plugin.autotable.min.js') }}"></script>
 
+            <script src="{{ URL::asset('vendor/autosize/autosize.js') }}"></script>
+
+            <script src="{{ URL::asset('vendor/bootstrap-fileupload/bootstrap-fileupload.min.js') }}"></script>
             
             @livewireScripts
             <script src="{{ URL::asset(mix('js/app.js')) }}"  data-turbolinks-track="reload"></script>

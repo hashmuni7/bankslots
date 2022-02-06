@@ -5,8 +5,11 @@ use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\Logic\USSDPayments;
+use App\Http\Livewire\Pages\DistrictsPage;
 use App\Http\Livewire\Pages\Markets;
 use App\Http\Livewire\Pages\NewHolder;
+use App\Http\Livewire\Pages\UpdateVendor;
+use App\Http\Livewire\Pages\VendorsPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,6 +119,8 @@ Route::post('/paymentussd', [USSDPayments::class, 'handleRequest']);
 Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('/newholders', NewHolder::class)->name('newholders');
     Route::get('/markets', Markets::class)->name('markets');
-    
+    Route::get('/vendors', VendorsPage::class)->name('vendors');
+    Route::get('/updatevendor/{vendorID}', UpdateVendor::class)->name('updatevendor');
+    Route::get('/districts', DistrictsPage::class)->name('districts');
 });
 

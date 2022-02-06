@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Livewire\Pages;
-
 use App\Models\Businessnature;
 use App\Models\District;
 use App\Models\Market;
@@ -10,14 +9,13 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Carbon\Carbon;
 use App\Traits\Figures;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Request;
 
 //Models Used
 use App\Models\Marketvendor;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
-class NewHolder extends Component
+class UpdateVendor extends Component
 {
     use LivewireAlert;
     use Figures;
@@ -37,11 +35,16 @@ class NewHolder extends Component
     public $district;
     public $markets;
     public $market;
+
     public $vendorPhoto;
     public $vendorCardFront;
     public $vendorCardBack;
 
-    
+    public $vendorPhotoFile;
+    public $vendorCardFrontFile;
+    public $vendorCardBackFile;
+
+    private $previousURL;
 
     public $statusInput = 1;
     public $statusUpdate = 2;
@@ -50,15 +53,7 @@ class NewHolder extends Component
     protected $listeners = ['updateVendorInfo'];
 
     protected $rules = [
-        'name' => 'required|min:6',
-        'phoneNumber' => 'required|digits:9',
-        'vendorPhoto' => 'image',
-        'nin' => 'required|min:14|max:14',
-        'gender' => 'required',
-        'businessPlace' => 'required',
-        'residencePlace' => 'required',
-        'businessNature' => 'required',
-        'dailyTurnOver' => 'required|numeric',
+        'name' => 'required|min:6'
     ];
 
     public function updated($propertyName)
@@ -66,16 +61,52 @@ class NewHolder extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function render()
+    public function updatedVendorPhoto()
     {
-        return view('livewire.pages.new-holder');
+        $this->vendorPhotoFile = true;
     }
 
-    public function mount()
+    public function updatedVendorCardFront()
     {
+        $this->vendorCardFrontFile = true;
+    }
+
+    public function updatedVendorCardBack()
+    {
+        $this->vendorCardBackFile = true;
+    }
+
+    public function render()
+    {
+        $this->previousURL = URL::previous();
+        return view('livewire.pages.update-vendor');
+    }
+
+    
+    public function mount($vendorID)
+    {
+        
         $this->businessNatureCategorys = Businessnature::select('*')->get();
         $this->districts = District::select('*')->get();
         $this->markets = Market::select('*')->where('districtid', 1)->get();
+
+        $this->accountHolderID = $vendorID;
+        $accountHolder = Marketvendor::select("*")->where('marketvendorid', $vendorID)
+                                        ->leftjoin('markets', 'marketvendors.marketid', 'markets.marketid')
+                                        ->leftjoin('districts', 'markets.districtid', 'districts.districtid')
+                                        ->first();
+        $this->district = $accountHolder->districtid;
+        $this->name = $accountHolder->name;
+        $this->phoneNumber = $accountHolder->phonenumber;
+        $this->nin = $accountHolder->nin;
+        $this->gender = (int) $accountHolder->gender;
+        $this->businessNature = $accountHolder->businessnatureid;
+        $this->residencePlace = $accountHolder->residenceplace;
+        $this->dailyTurnOver = $accountHolder->dailyturnover;
+        $this->market = $accountHolder->marketid;
+        $this->vendorPhoto = $accountHolder->vendorphotopath;
+        $this->vendorCardFront = $accountHolder->vendorcardfront;
+        $this->vendorCardBack = $accountHolder->vendorcardback;
         
 
     }
@@ -103,93 +134,14 @@ class NewHolder extends Component
             'marketid' => $this->market
         ]);
         
-        
-
-        if($this->vendorPhoto)
-        {
-            $vendorPhotoFile = 'vendorPhoto' . "$newHolder->marketid" . '.' . $this->vendorPhoto->extension();
-            $newHolder->vendorphotopath = $vendorPhotoFile;
-            $this->vendorPhoto->storeAs('public', $vendorPhotoFile);
-        }
-        if($this->vendorCardFront)
-        {
-            $vendorCardFrontFile = 'vendorCardFront' . "$newHolder->marketid" . '.' . $this->vendorCardFront->extension();
-            $newHolder->vendorcardfront = $vendorCardFrontFile;
-            $this->vendorCardFront->storeAs('public', $vendorCardFrontFile);
-        }
-        if($this->vendorCardBack)
-        {
-            $vendorCardBackFile = 'vendorCardBack' . "$newHolder->marketid". '.' . $this->vendorCardBack->extension();
-            $newHolder->vendorcardback = $vendorCardBackFile;
-            $this->vendorCardBack->storeAs('public', $vendorCardBackFile);
-        }
-        
-        $newHolder->save();
-        $welcomeMessage = "Sales Manager App \n";
-        $welcomeMessage .= "Hello $newHolder->name! You have been registered with Sales Manager to get a bank account.";
-        $this->sendWelcomeSMS($newHolder->phonenumber, $welcomeMessage);
         $this->flash('success', 'Account Holder Registered' , [
-            'position' =>  'top-end', 
-            'timer' =>  3000,  
-            'toast' =>  true,  
-        ]);
-        
-        
-
-
-         $this->clearFields();
-         return redirect()->route('vendors');
-        //$this->emitTo('tables.market-vendors','refreshComponent');
-       
-    }
-
-    public function saveAndNew()
-    {
-        //dd('Reached');
-        $this->validate();
-        
-        $newHolder = Marketvendor::create([
-            'name' => $this->name,
-            'phonenumber' => $this->phoneNumber,
-            'nin' => $this->nin,
-            'businessnatureid' => $this->businessNature,
-            'residenceplace' => $this->residencePlace,
-            'dailyturnover' => $this->dailyTurnOver,
-            'gender' => $this->gender,
-            'registeredby' => Auth::user()->id,
-            'accountnumber' => $this->randNum(15),
-            'marketid' => $this->market
-        ]);
-
-        if($this->vendorPhoto)
-        {
-            $vendorPhotoFile = 'vendorPhoto' . "$newHolder->marketid" . '.' . $this->vendorPhoto->extension();
-            $newHolder->vendorphotopath = $vendorPhotoFile;
-            $this->vendorPhoto->storeAs('public', $vendorPhotoFile);
-        }
-        if($this->vendorCardFront)
-        {
-            $vendorCardFrontFile = 'vendorCardFront' . "$newHolder->marketid" . '.' . $this->vendorCardFront->extension();
-            $newHolder->vendorcardfront = $vendorCardFrontFile;
-            $this->vendorCardFront->storeAs('public', $vendorCardFrontFile);
-        }
-        if($this->vendorCardBack)
-        {
-            $vendorCardBackFile = 'vendorCardBack' . "$newHolder->marketid". '.' . $this->vendorCardBack->extension();
-            $newHolder->vendorcardback = $vendorCardBackFile;
-            $this->vendorCardBack->storeAs('public', $vendorCardBackFile);
-        }
-        
-        $newHolder->save();
-        
-        $this->alert('success', 'Account Holder Registered' , [
             'position' =>  'top-end', 
             'timer' =>  3000,  
             'toast' =>  true,  
         ]);
 
         $this->clearFields();
-        //return redirect()->route('vendors');
+        return redirect()->route('vendors');
         //$this->emitTo('tables.market-vendors','refreshComponent');
        
     }
@@ -198,9 +150,8 @@ class NewHolder extends Component
     {
         //dd('Reached');
         //$this->validate();
-        
-        $newHolder = Marketvendor::where('marketvendorid', $this->accountHolderID)
-        ->update([
+        $newHolderRecord = Marketvendor::where('marketvendorid', $this->accountHolderID)->first();
+        $newHolder = $newHolderRecord->update([
             'name' => $this->name,
             'phonenumber' => $this->phoneNumber,
             'nin' => $this->nin,
@@ -211,15 +162,38 @@ class NewHolder extends Component
             'registeredby' => Auth::user()->id,
             'marketid' => $this->market
         ]);
+
+        $newHolder = $newHolderRecord->refresh();
+
+        if($this->vendorPhoto && $this->vendorPhotoFile)
+        {
+            $vendorPhotoFile = 'vendorPhoto' . "$newHolder->marketid" . '.' . $this->vendorPhoto->extension();
+            $newHolder->vendorphotopath = $vendorPhotoFile;
+            $this->vendorPhoto->storeAs('public', $vendorPhotoFile);
+        }
+        if($this->vendorCardFront && $this->vendorCardFrontFile)
+        {
+            $vendorCardFrontFile = 'vendorCardFront' . "$newHolder->marketid" . '.' . $this->vendorCardFront->extension();
+            $newHolder->vendorcardfront = $vendorCardFrontFile;
+            $this->vendorCardFront->storeAs('public', $vendorCardFrontFile);
+        }
+        if($this->vendorCardBack && $this->vendorCardBackFile)
+        {
+            $vendorCardBackFile = 'vendorCardBack' . "$newHolder->marketid". '.' . $this->vendorCardBack->extension();
+            $newHolder->vendorcardback = $vendorCardBackFile;
+            $this->vendorCardBack->storeAs('public', $vendorCardBackFile);
+        }
         
-        $this->alert('success', 'Account Holder Updated' , [
+        $newHolder->save();
+        
+        $this->flash('success', 'Account Holder Updated' , [
             'position' =>  'top-end', 
             'timer' =>  3000,  
             'toast' =>  true,  
         ]);
 
         $this->clearFields();
-        $this->emitTo('tables.market-vendors','refreshComponent');
+        return redirect()->route('vendors');
        
     }
 
@@ -244,6 +218,12 @@ class NewHolder extends Component
          $this->dailyTurnOver = null;
          $this->district = null;
          $this->market = null;
+         $this->vendorPhoto = null;
+         $this->vendorCardFront = null;
+         $this->vendorCardBack = null;
+         $this->vendorPhotoFile = null;
+         $this->vendorCardFrontFile = null;
+         $this->vendorCardBackFile = null;
     }
 
     public function updateVendorInfo($vendorid)
@@ -275,8 +255,8 @@ class NewHolder extends Component
 
     public function cancelUpdate()
     {
-        $this->formStatus = $this->statusInput;
         $this->clearFields();
+        $this->dispatchBrowserEvent('goBack');
     }
 
     public function deleteHolder()
@@ -287,27 +267,9 @@ class NewHolder extends Component
             'timer' =>  3000,  
             'toast' =>  true,  
         ]);
-        $this->formStatus = $this->statusInput;
+
         $this->clearFields();
+        $this->dispatchBrowserEvent('goBack');
+        
     }
-
-    public function sendWelcomeSMS($phoneNumber, $Message)
-    {
-        $response = Http::post('http://www.egosms.co/api/v1/json/', [
-            'method' => 'SendSms',
-            'userdata' => array(
-                'username' => 'hash',
-                'password' => 'RDP4isgJnUefcSp'
-            ),
-            'msgdata' => array(
-                array(
-                    'number' => '256' . $phoneNumber,
-                    'message' => $Message,
-                    'senderid' => 'Egosms'
-                )
-            )
-        ]);
-    }
-
-    
 }

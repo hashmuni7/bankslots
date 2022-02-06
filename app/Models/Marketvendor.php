@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $registeredby
  * @property Carbon|null $dateregistered
  * @property int|null $marketid
+ * @property string|null $vendorphotopath
+ * @property string|null $vendorcardfront
+ * @property string|null $vendorcardback
  * 
  * @property Businessnature $businessnature
  * @property User|null $user
@@ -64,7 +67,10 @@ class Marketvendor extends Model
 		'accountnumber',
 		'registeredby',
 		'dateregistered',
-		'marketid'
+		'marketid',
+		'vendorphotopath',
+		'vendorcardfront',
+		'vendorcardback'
 	];
 
 	public function businessnature()

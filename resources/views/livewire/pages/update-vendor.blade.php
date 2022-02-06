@@ -32,13 +32,19 @@
                         
                     </div>
     
-                    <h2 class="card-title">New Account Holder Information</h2>
+                    <h2 class="card-title">Update Vendor</h2>
                     <p class="card-subtitle">{{--$landlord->id--}}</p>
                 </header>
                 <div class="card-body">
                         <div class="row">
                             <div class="card-body col-lg-8">
-                                <form>
+                                <form 
+                                    @if ($formStatus == 1)
+                                    wire:submit.prevent="updateHolder"
+                                    @else
+                                    wire:submit.prevent="updateHolder"
+                                    @endif
+                                    >
                                         {{ csrf_field() }} 
                                         <div class="row form-group">
                                     <div class="col-lg-12">
@@ -59,12 +65,11 @@
                                     <div class="col-lg-4">
                                         <div class="form-group @error('phoneNumber') has-danger @enderror">
                                             <label class="col-form-label" for="phoneNumber">Phone Number</label>
-                                            
                                             <div class="input-group mb-3">
                                                 <span class="input-group-prepend">
                                                     <span class="input-group-text">+256</span>
                                                 </span>
-                                                <input type="text" class="form-control" id="phoneNumber" placeholder="705949874" wire:model="phoneNumber">
+                                                <input type="text" class="form-control" id="phoneNumber" placeholder="0705949874" wire:model="phoneNumber">
                                             </div>
                                             @error('phoneNumber')
                                                 <div>
@@ -199,8 +204,8 @@
                                                     
                                                         @if ($vendorPhoto)
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset("storage/test1.jpg")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{asset("storage/test1.jpg")}}">
+                                                                <a class="img-thumbnail lightbox" href="{{asset("storage/$vendorPhoto")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{asset("storage/$vendorPhoto")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -209,7 +214,7 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset("storage/test1.jpg")}}" data-plugin-options='{ "type":"image" }'>
+                                                                <a class="img-thumbnail lightbox" href="{{asset("http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image")}}" data-plugin-options='{ "type":"image" }'>
                                                                     <img class="img-fluid" width="215" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
@@ -248,10 +253,10 @@
                                             <div wire:ignore class="">
                                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                                     
-                                                        @if ($vendorPhoto)
+                                                        @if ($vendorCardFront)
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset('storage/test1.jpg')}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{asset('storage/test1.jpg')}}">
+                                                                <a class="img-thumbnail lightbox" href="{{asset("storage/$vendorCardFront")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{asset("storage/$vendorCardFront")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -260,7 +265,7 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset('storage/test1.jpg')}}" data-plugin-options='{ "type":"image" }'>
+                                                                <a class="img-thumbnail lightbox" href="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" data-plugin-options='{ "type":"image" }'>
                                                                     <img class="img-fluid" width="215" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
@@ -299,10 +304,10 @@
                                             <div wire:ignore class="">
                                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                                     
-                                                        @if ($vendorPhoto)
+                                                        @if ($vendorCardBack)
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset('storage/test1.jpg')}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{asset('storage/test1.jpg')}}">
+                                                                <a class="img-thumbnail lightbox" href="{{asset("storage/$vendorCardBack")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{asset("storage/$vendorCardBack")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -311,7 +316,7 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset('storage/test1.jpg')}}" data-plugin-options='{ "type":"image" }'>
+                                                                <a class="img-thumbnail lightbox" href="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" data-plugin-options='{ "type":"image" }'>
                                                                     <img class="img-fluid" width="215" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
@@ -342,18 +347,19 @@
                                     </div>
                                     <div class="col-lg-6">
                                     </div>    
-                                </div>                              
+                                </div>                               
                                 <div class="row">
-                                    <div class="{{$formStatus == $statusInput ? 'col-lg-6' : 'col-lg-8'}}">
+                                    <div class="col-lg-8">
                                                                                   
-                                            
+                                            <button class="btn btn-primary"  style="width: 10em">
                                                 @if ($formStatus == $statusInput)
-                                                <a wire:click="addHolder" class="btn btn-primary" role="button" style="width: 10em; color: white" aria-pressed="true">Save</a>
+                                                    Update
                                                 @else
                                                     Update 
-                                                @endif 
+                                                @endif </button>
                                                 @if ($formStatus == $statusInput)
-                                                <a wire:click="saveAndNew" class="btn btn-default" role="button" style="width: 10em" aria-pressed="true">Save & New</a>
+                                                <a wire:click="cancelUpdate" class="btn btn-default" role="button" style="width: 10em" aria-pressed="true">Cancel Update</a>
+                                                <a wire:click="deleteHolder" class="btn btn-secondary" role="button" style="width: 10em" aria-pressed="true">Delete</a>
                                                 @else
                                                 <a wire:click="cancelUpdate" class="btn btn-default" role="button" style="width: 10em" aria-pressed="true">Cancel Update</a>
                                                 <a wire:click="deleteHolder" class="btn btn-secondary" role="button" style="width: 10em" aria-pressed="true">Delete</a>
@@ -376,7 +382,9 @@
     @section('pagejs')
         <!-- Code to handle Admin Requests-->
         <script>
-           $('.fileupload').fileupload();
+           window.addEventListener('goBack', event => {
+            history.back()
+            });
             
 
         </script>

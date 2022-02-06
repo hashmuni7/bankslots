@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Market;
-
+use App\Models\Marketvendor;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use App\Traits\Figures;
 
@@ -31,7 +31,19 @@ class MarketsTable extends DataTableComponent
                 ->sortable(),
             Column::make("Phone", "contactphone")
                 ->sortable(),
-            Column::make("Market Code", "marketcode")
+            
+            Column::make("Registered", "marketid")
+                ->format(function($value){
+                    $registeredVendors = Marketvendor::select('*')->where('marketid', $value)->count();
+                    return $registeredVendors;
+                })
+                ->sortable(),
+            Column::make("Percentage", "marketid")
+                ->format(function($value, $column, $row){
+                    $registeredVendors = Marketvendor::select('*')->where('marketid', $value)->count();
+                    $percentage = $registeredVendors ? (($registeredVendors / $row->vendorpopulation)* 100) .'%' : '0%';
+                    return $percentage;
+                })
                 ->sortable(),
             Column::make('Action', 'marketid')
                 ->format(function($value, $column, $row) {
@@ -44,9 +56,15 @@ class MarketsTable extends DataTableComponent
 
     public function query(): Builder
     {
-        return Market::query()
+        $query = Market::query()
                         ->leftjoin('districts', 'markets.districtid', 'districts.districtid')
                         ->orderBy('marketid', 'desc');
+        // $query = Market::selectRaw('markets.marketid, markets.marketname, districts.district, markets.vendorpopulation, markets.contactname,
+        //                             markets.contactphone, markets.marketcode, (select count(*) where marketvendors.marketid = markets.marketid) As vendors_count ')
+        //                 ->leftjoin('districts', 'markets.districtid', 'districts.districtid')
+        //                  ->orderBy('marketid', 'desc');
+        //dd($query);
+        return $query;
     }
 
     public function update($marketid)
