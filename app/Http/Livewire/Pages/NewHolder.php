@@ -12,10 +12,13 @@ use App\Traits\Figures;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManager;
 
 //Models Used
 use App\Models\Marketvendor;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic;
 
 class NewHolder extends Component
 {
@@ -89,7 +92,12 @@ class NewHolder extends Component
     {
         //dd('Reached');
         //$this->validate();
-        
+        $this->alert('success', 'Saving Vendor ...' , [
+            'position' => 'center',
+            'timer' => 6000,
+            'toast' => false,
+            'timerProgressBar' => true,  
+        ]);
         $newHolder = Marketvendor::create([
             'name' => $this->name,
             'phonenumber' => $this->phoneNumber,
@@ -105,29 +113,51 @@ class NewHolder extends Component
         
         
 
+        
         if($this->vendorPhoto)
         {
             $vendorPhotoFile = 'vendorPhoto' . "$newHolder->marketid" . '.' . $this->vendorPhoto->extension();
             $newHolder->vendorphotopath = $vendorPhotoFile;
-            $this->vendorPhoto->storeAs('public', $vendorPhotoFile);
+            $vendorSavedImage = ImageManagerStatic::make($this->vendorPhoto)->encode('png');
+            $this->alert('success', 'Saving Vendor ...' , [
+                'position' =>  'top-end', 
+                'timer' =>  3000,  
+                'toast' =>  true,  
+            ]);
+            Storage::disk('public')->put($vendorPhotoFile, $vendorSavedImage);
+            //$this->vendorPhoto->storeAs('public', $vendorPhotoFile);
         }
         if($this->vendorCardFront)
         {
-            $vendorCardFrontFile = 'vendorCardFront' . "$newHolder->marketid" . '.' . $this->vendorCardFront->extension();
+            $vendorCardFrontFile = 'vendorCardFront' . "$newHolder->marketvendorid" . '.' . $this->vendorCardFront->extension();
             $newHolder->vendorcardfront = $vendorCardFrontFile;
-            $this->vendorCardFront->storeAs('public', $vendorCardFrontFile);
+            $vendorSavedImage2 = ImageManagerStatic::make($this->vendorCardFront)->encode('png');
+            $this->alert('success', 'Saving Vendor ID Front...' , [
+                'position' =>  'top-end', 
+                'timer' =>  3000,  
+                'toast' =>  true,  
+            ]);
+            Storage::disk('public')->put($vendorCardFrontFile, $vendorSavedImage2);
+            //$this->vendorCardFront->storeAs('public', $vendorCardFrontFile);
         }
         if($this->vendorCardBack)
         {
-            $vendorCardBackFile = 'vendorCardBack' . "$newHolder->marketid". '.' . $this->vendorCardBack->extension();
+            $vendorCardBackFile = 'vendorCardBack' . "$newHolder->marketvendorid". '.' . $this->vendorCardBack->extension();
             $newHolder->vendorcardback = $vendorCardBackFile;
-            $this->vendorCardBack->storeAs('public', $vendorCardBackFile);
+            $vendorSavedImage3 = ImageManagerStatic::make($this->vendorCardBack)->encode('png');
+            $this->alert('success', 'Saving Vendor ID Back...' , [
+                'position' =>  'top-end', 
+                'timer' =>  3000,  
+                'toast' =>  true,  
+            ]);
+            Storage::disk('public')->put($vendorCardBackFile, $vendorSavedImage3);
+            //$this->vendorCardBack->storeAs('public', $vendorCardBackFile);
         }
         
         $newHolder->save();
         $welcomeMessage = "Sales Manager App \n";
         $welcomeMessage .= "Hello $newHolder->name! You have been registered with Sales Manager to get a bank account.";
-        $this->sendWelcomeSMS($newHolder->phonenumber, $welcomeMessage);
+        //$this->sendWelcomeSMS($newHolder->phonenumber, $welcomeMessage);
         $this->flash('success', 'Account Holder Registered' , [
             'position' =>  'top-end', 
             'timer' =>  3000,  
@@ -163,7 +193,7 @@ class NewHolder extends Component
 
         if($this->vendorPhoto)
         {
-            $vendorPhotoFile = 'vendorPhoto' . "$newHolder->marketid" . '.' . $this->vendorPhoto->extension();
+            $vendorPhotoFile = 'vendorPhoto' . "$newHolder->marketvendorid" . '.' . $this->vendorPhoto->extension();
             $newHolder->vendorphotopath = $vendorPhotoFile;
             $this->vendorPhoto->storeAs('public', $vendorPhotoFile);
         }

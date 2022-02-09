@@ -76,7 +76,7 @@
                 <header class="header" style="border-top-width: 0px;">
                     <div class="logo-container">
                         <a href="{{ url('/') }}" class="logo">						
-                        <img src="{{ URL::asset('img/salesmanager.jpg') }}" width="165" height="45" alt="Landlod Logo" />	</a>					
+                        <img src="{{ URL::asset('img/salesmanager.png') }}" width="165" height="45" alt="Landlod Logo" />	</a>					
                         <div class="d-md-none toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                             <i class="fas fa-bars" aria-label="Toggle sidebar"></i>				
                         </div>
