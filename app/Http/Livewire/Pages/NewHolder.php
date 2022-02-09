@@ -157,7 +157,7 @@ class NewHolder extends Component
         $newHolder->save();
         $welcomeMessage = "Sales Manager App \n";
         $welcomeMessage .= "Hello $newHolder->name! You have been registered with Sales Manager to get a bank account.";
-        //$this->sendWelcomeSMS($newHolder->phonenumber, $welcomeMessage);
+        $this->sendWelcomeSMS($newHolder->phonenumber, $welcomeMessage);
         $this->flash('success', 'Account Holder Registered' , [
             'position' =>  'top-end', 
             'timer' =>  3000,  
