@@ -5,11 +5,20 @@ use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\Logic\USSDPayments;
+use App\Http\Livewire\Pages\AccountHoldersDetailPage;
+use App\Http\Livewire\Pages\AccountHoldersListPage;
+use App\Http\Livewire\Pages\AccountHoldersUpdatePage;
+use App\Http\Livewire\Pages\BanksPage;
 use App\Http\Livewire\Pages\DistrictsPage;
 use App\Http\Livewire\Pages\Markets;
 use App\Http\Livewire\Pages\NewHolder;
 use App\Http\Livewire\Pages\UpdateVendor;
 use App\Http\Livewire\Pages\VendorsPage;
+
+use App\Http\Livewire\Pages\PlacesOfWorkCategoryPage;
+use App\Http\Livewire\Pages\NewPlacesOfWorkCategoryPage;
+use App\Http\Livewire\Pages\NewBusinessNatureCategoryPage;
+use App\Http\Livewire\Pages\PlacesOfWorkPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,5 +131,16 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('/vendors', VendorsPage::class)->name('vendors');
     Route::get('/updatevendor/{vendorID}', UpdateVendor::class)->name('updatevendor');
     Route::get('/districts', DistrictsPage::class)->name('districts');
+
+    Route::get('/placesofworkcategorypage', PlacesOfWorkCategoryPage::class);
+    Route::get('/newplacesofworkcategorypage', NewPlacesOfWorkCategoryPage::class);
+    Route::get('/newbusinessnaturecategorypage', NewBusinessNatureCategoryPage::class);
+    Route::get('/newbusinessnaturecategorypage/{placeOfWorkCategoryID}', NewBusinessNatureCategoryPage::class);
+
+    Route::get('/placesofworkstationspage', PlacesOfWorkPage::class);
+    Route::get('/accountholderdetailpage', AccountHoldersDetailPage::class)->name('accountholderdetailpage');
+    Route::get('/accountholderlistpage', AccountHoldersListPage::class)->name('accountholderlistpage');
+    Route::get('/accountholderupdatepage/{accountholderid}', AccountHoldersUpdatePage::class)->name('accountholderupdatepage');
+    Route::get('/banks', BanksPage::class)->name('bankspage');
 });
 

@@ -24,7 +24,7 @@ class MarketsTable extends DataTableComponent
                 ->sortable(),
             Column::make("Vendors", "vendorpopulation")
                 ->format(function($value){
-                    return $this->reableThousands($value);
+                    return $this->readableThousands($value);
                 })
                 ->sortable(),
             Column::make("Contact", "contactname")

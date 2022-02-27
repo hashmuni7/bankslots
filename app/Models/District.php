@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $district
  * 
  * @property Collection|Market[] $markets
+ * @property Collection|Placesofwork[] $placesofworks
  *
  * @package App\Models
  */
@@ -32,5 +33,10 @@ class District extends Model
 	public function markets()
 	{
 		return $this->hasMany(Market::class, 'districtid');
+	}
+
+	public function placesofworks()
+	{
+		return $this->hasMany(Placesofwork::class, 'districtid');
 	}
 }

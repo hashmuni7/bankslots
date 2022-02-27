@@ -8,6 +8,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Bank Slots | Log In</title>
+        <link rel="icon" href="{{ URL::asset('img/salesmanagertitle.ico') }}"  type="image/x-icon" />
 
         <!-- Vendor CSS -->
 		<link rel="stylesheet" href="{{ URL::asset('vendor/bootstrap/css/bootstrap.css') }}" />

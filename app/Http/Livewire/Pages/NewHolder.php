@@ -116,15 +116,25 @@ class NewHolder extends Component
         
         if($this->vendorPhoto)
         {
-            $vendorPhotoFile = 'vendorPhoto' . "$newHolder->marketid" . '.' . $this->vendorPhoto->extension();
-            $newHolder->vendorphotopath = $vendorPhotoFile;
-            $vendorSavedImage = ImageManagerStatic::make($this->vendorPhoto)->encode('png');
+            $image = $this->vendorPhoto;
+            $avatarName = 'vendorPhoto' . "$newHolder->marketid" . '.' . $image->getClientOriginalExtension();
+            $img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
+                $c->aspectRatio();
+                $c->upsize();
+            });
+            $img->orientate();
+            $img->stream(); // <-- Key point
+            Storage::disk('s3')->put('passportphotos' . '/' . $avatarName, $img, 'passportphotos');
+            $newHolder->vendorphotopath = $avatarName;
+            // $vendorPhotoFile = 'vendorPhoto' . "$newHolder->marketid" . '.' . $this->vendorPhoto->extension();
+            // $newHolder->vendorphotopath = $vendorPhotoFile;
+            // $vendorSavedImage = ImageManagerStatic::make($this->vendorPhoto)->encode('png');
             $this->alert('success', 'Saving Vendor ...' , [
                 'position' =>  'top-end', 
                 'timer' =>  3000,  
                 'toast' =>  true,  
             ]);
-            Storage::disk('public')->put($vendorPhotoFile, $vendorSavedImage);
+            // Storage::disk('s3')->put($vendorPhotoFile, $vendorSavedImage);
             //$this->vendorPhoto->storeAs('public', $vendorPhotoFile);
         }
         if($this->vendorCardFront)

@@ -2,7 +2,7 @@
     <section class="body-sign">
         <div class="center-sign">
             <a href="#" class="logo float-left">
-                <img src="{{ URL::asset('img/salesmanager.png') }}" height="54"  alt="Landlod logo" />
+                <img src="{{ URL::asset('img/w.png') }}"  alt="Bankslots Logo" />
             </a>
 
             <div class="panel card-sign">

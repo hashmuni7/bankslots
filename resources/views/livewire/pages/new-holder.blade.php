@@ -196,11 +196,10 @@
                                             <label class="col-form-label control-label text-lg-right pt-2">Vendor Passport Photo</label>
                                             <div wire:ignore class="">
                                                 <div class="fileupload fileupload-new" data-provides="fileupload">
-                                                    
                                                         @if ($vendorPhoto)
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset("storage/test1.jpg")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{asset("storage/test1.jpg")}}">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("photos/goodName09.jpg")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("photos/goodName09.jpg")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -209,8 +208,8 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset("storage/test1.jpg")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("noimage.png")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("noimage.png")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -260,8 +259,8 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset('storage/test1.jpg')}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("idcard.jpg")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("idcard.jpg")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -311,8 +310,8 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset('storage/test1.jpg')}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("idcard.jpg")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("idcard.jpg")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>

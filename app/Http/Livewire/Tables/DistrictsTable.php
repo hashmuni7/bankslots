@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\Tables;
 
+use App\Models\Accountholder;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\District;
 use App\Models\Market;
 use App\Models\Marketvendor;
+use App\Models\Placesofwork;
 use App\Traits\Figures;
 
 class DistrictsTable extends DataTableComponent
@@ -18,22 +20,37 @@ class DistrictsTable extends DataTableComponent
         return [
             Column::make("District", "district")
                 ->sortable(),
-            Column::make("Markets", "districtid")
+            Column::make("Work Stations", "districtid")
             ->format(function($value){
-                $registeredMarkets = Market::select('*')->where('districtid', $value)->count();
-                return $this->reableThousands($registeredMarkets);
+                $holders = Placesofwork::select('*')
+                                    ->where('placesofwork.districtid', $value)
+                                    //->leftjoin('placesofwork', 'accountholders.placesofworkid', 'placesofwork.placesofworkid')
+                                    ->count();
+                return  $holders;
+                // $registeredMarkets = Market::select('*')->where('districtid', $value)->count();
+                // return $this->readableThousands($registeredMarkets);
             })
                 ->sortable(),
-            Column::make("Vendors", "districtid")
+            Column::make("Account Holders", "districtid")
             ->format(function($value){
-                $registeredVendors = Marketvendor::select('*')->where('markets.districtid', $value)->leftjoin('markets', 'marketvendors.marketid', 'markets.marketid')->count();
-                return  $this->reableThousands($registeredVendors);
+                $holders = Accountholder::select('*')
+                                    ->where('placesofwork.districtid', $value)
+                                    ->leftjoin('placesofwork', 'accountholders.placesofworkid', 'placesofwork.placesofworkid')
+                                    ->count();
+                return  $holders;
+                // $registeredVendors = Marketvendor::select('*')->where('markets.districtid', $value)->leftjoin('markets', 'marketvendors.marketid', 'markets.marketid')->count();
+                // return  $this->readableThousands($registeredVendors);
             })
                 ->sortable(),
             Column::make("Population", "districtid")
                 ->format(function($value){
-                    $registeredPopulation = Market::select('vendorpopulation')->where('districtid', $value)->sum('vendorpopulation');
-                    return $this->reableThousands($registeredPopulation);
+                    $population = Placesofwork::select('prospectivepopulation')
+                                     ->where('placesofwork.districtid', $value)
+                                     ->sum('prospectivepopulation');
+                    if($population) $population = $this->readableThousands($population);
+                 return  $population;
+                    // $registeredPopulation = Market::select('vendorpopulation')->where('districtid', $value)->sum('vendorpopulation');
+                    // return $this->readableThousands($registeredPopulation);
                 })
                     ->sortable(),
         ];

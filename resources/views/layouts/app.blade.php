@@ -11,7 +11,7 @@
         <meta name="turbolinks-cache-control" content="no-preview">
 
         <title>{{$title}}</title>
-        <link rel="icon" href="{{ URL::asset('img/small-logo.ico') }}"  type="image/x-icon" />
+        <link rel="icon" href="{{ URL::asset('img/salesmanagertitle.ico') }}"  type="image/x-icon" />
         
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="{{ URL::asset('vendor/bootstrap/css/bootstrap.css') }}" />
@@ -75,8 +75,9 @@
                 <!-- start: header -->
                 <header class="header" style="border-top-width: 0px;">
                     <div class="logo-container">
-                        <a href="{{ url('/') }}" class="logo">						
-                        <img src="{{ URL::asset('img/salesmanager.png') }}" width="165" height="45" alt="Landlod Logo" />	</a>					
+                        <a href="{{ url('/') }}" class="logo">	
+                            					
+                        <img src="{{ URL::asset('img/salesmanagerlogo.png') }}"  alt="Bankslots Logo" />	</a>					
                         <div class="d-md-none toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                             <i class="fas fa-bars" aria-label="Toggle sidebar"></i>				
                         </div>
@@ -171,6 +172,54 @@
                                         </li>
                                         <li class="nav-parent">
                                             <a class="nav-link" href="#">
+                                                <i class="fas fa-industry" aria-hidden="true"></i>
+                                                <span>Places of work</span>
+                                            </a>
+                                            
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a class="nav-link" href="{{ url('/newplacesofworkcategorypage') }}">
+                                                      New Place of work
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="nav-link" href="{{ url('/placesofworkcategorypage') }}">
+                                                      Places of work
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="nav-link" href="{{ url('/newbusinessnaturecategorypage') }}">
+                                                      Business Nature
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="nav-link" href="{{ url('/placesofworkstationspage') }}">
+                                                      Work Stations
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-parent" >
+                                            <a class="nav-link" href="#">
+                                                <i class="fas fa-users" aria-hidden="true"></i>
+                                                <span>Account Holders</span>
+                                            </a>
+                                            
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a class="nav-link" href="{{ url('/accountholderdetailpage') }}">
+                                                      New Account Holder
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="nav-link" href="{{ url('/accountholderlistpage') }}">
+                                                      Account Holders
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-parent hidden" >
+                                            <a class="nav-link" href="#">
                                                 <i class="fas fa-columns" aria-hidden="true"></i>
                                                 <span>Vendors</span>
                                             </a>
@@ -188,7 +237,7 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li>
+                                        <li class="hidden">
                                             <a class="nav-link" href="{{ url('/markets') }}">
                                                 <i class="fas fa-building" aria-hidden="true"></i>
                                                 <span>Markets</span>
@@ -196,8 +245,14 @@
                                         </li>
                                         <li>
                                             <a class="nav-link" href="{{ url('/districts') }}">
-                                                <i class="fas fa-home" aria-hidden="true"></i>
+                                                <i class="fas fa-city" aria-hidden="true"></i>
                                                 <span>Districts</span>
+                                            </a>                        
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" href="{{ url('/banks') }}">
+                                                <i class="fas fa-landmark" aria-hidden="true"></i>
+                                                <span>Banks</span>
                                             </a>                        
                                         </li>                                  
                                     </ul>

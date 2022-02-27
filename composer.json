@@ -19,6 +19,7 @@
         "laravel/jetstream": "^2.1",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
+        "league/flysystem-aws-s3-v3": "*",
         "livewire/livewire": "^2.10",
         "rappasoft/laravel-livewire-tables": "^1.9"
     },

@@ -204,8 +204,8 @@
                                                     
                                                         @if ($vendorPhoto)
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{asset("storage/$vendorPhoto")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{asset("storage/$vendorPhoto")}}">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("passportphotos/$vendorPhoto")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("passportphotos/$vendorPhoto")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -265,8 +265,8 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("idcard.jpg")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("idcard.jpg")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -316,8 +316,8 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("idcard.jpg")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("idcard.jpg")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>

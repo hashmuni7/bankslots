@@ -25,7 +25,7 @@ trait Figures
         
     }
 
-    public function reableThousands($number)
+    public function readableThousands($number)
     {
         return number_format($number, 0, '.', ',');
     }
