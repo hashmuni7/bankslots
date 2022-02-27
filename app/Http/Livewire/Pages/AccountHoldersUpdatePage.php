@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use App\Traits\Figures;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
+
 use Intervention\Image\ImageManagerStatic;
 
 class AccountHoldersUpdatePage extends Component
