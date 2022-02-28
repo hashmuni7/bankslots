@@ -74,7 +74,7 @@
             </section>
         </div>
     
-        <div class="col-xl-6">
+        <div class="col-xl-6 hidden">
             <section class="card card-featured-left card-featured-secondary">
                 <div class="card-body">
                     <div class="widget-summary">
