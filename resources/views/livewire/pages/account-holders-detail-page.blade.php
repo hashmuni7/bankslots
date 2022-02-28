@@ -308,8 +308,8 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("noimage.png")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("noimage.png")}}">
+                                                                <a class="img-thumbnail lightbox" href="{{ Illuminate\Support\Facades\Storage::disk('s3')->url("noimage.png") }}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{ Illuminate\Support\Facades\Storage::disk('s3')->url("noimage.png") }}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -359,8 +359,8 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("idcard.jpg")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("idcard.jpg")}}">
+                                                                <a class="img-thumbnail lightbox" href="{{Illuminate\Support\Facades\Storage::disk('s3')->url("idcard.jpg")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Illuminate\Support\Facades\Storage::disk('s3')->url("idcard.jpg")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -410,8 +410,8 @@
                                                             
                                                         @else
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("idcard.jpg")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("idcard.jpg")}}">
+                                                                <a class="img-thumbnail lightbox" href="{{Illuminate\Support\Facades\Storage::disk('s3')->url("idcard.jpg")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Illuminate\Support\Facades\Storage::disk('s3')->url("idcard.jpg")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
