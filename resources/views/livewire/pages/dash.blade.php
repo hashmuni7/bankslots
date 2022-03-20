@@ -75,8 +75,8 @@
         </div>
     
         <div class="col-xl-6 hidden">
-            <section class="card card-featured-left card-featured-secondary" >
-                <div class="card-body" id="loadingSection" data-loading-overlay>
+            <section class="card card-featured-left card-featured-secondary">
+                <div class="card-body">
                     <div class="widget-summary">
                         <div class="widget-summary-col widget-summary-col-icon">
                             <div class="summary-icon bg-secondary">

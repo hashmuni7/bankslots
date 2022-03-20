@@ -83,20 +83,26 @@ class Dash extends Component
         //dd($this->testImage);
         if($this->testImage)
         {
-            //dd("I am there");
-            // $image = $this->testImage;
-            // $avatarName = "goodName136" . '.' . $image->getClientOriginalExtension();
-            // // $img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
-            // //     $c->aspectRatio();
-            // //     $c->upsize();
-            // // });
-            // // $img->orientate();
-            // // $img->stream(); // <-- Key point
-            // $this->testImage->store('photos', 's3');
-            // //Storage::disk('s3')->put($avatarName, $this->testImage);
-            
-           $this->testImage->store('photos', 's3');
-
+            //$image = $this->testImage;
+            //$avatarName = "goodName10" . '.' . $image->getClientOriginalExtension();
+            //$img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
+            //    $c->aspectRatio();
+            //    $c->upsize();
+            //});
+           // $img->orientate();
+           // $img->stream(); // <-- Key point
+            //Storage::disk('s3')->put('photos' . '/' . $avatarName, $img, 'photos');
+            $image = $this->testImage;
+            $avatarName = "goodName136" . '.' . $image->getClientOriginalExtension();
+            // $img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
+            //     $c->aspectRatio();
+            //     $c->upsize();
+            // });
+            // $img->orientate();
+            // $img->stream(); // <-- Key point
+            $this->testImage->store('photos', 's3');
+            //Storage::disk('s3')->put($avatarName, $this->testImage);
+     
            
         }
         //$path = Storage::disk('s3')->put('photos', $this->testImage);
