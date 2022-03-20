@@ -11,7 +11,7 @@
                         </div>
                         <div class="widget-summary-col">
                             <div class="summary">
-                                <h4 class="title">Account Holders</h4>
+                                <h4 class="title">Vendors</h4>
                                 <div class="info">
                                     <strong class="amount">{{$accountHolders}}</strong>
                                     <span class="text-primary">Registered</span>
@@ -74,9 +74,9 @@
             </section>
         </div>
     
-        <div class="col-xl-6">
-            <section class="card card-featured-left card-featured-secondary">
-                <div class="card-body">
+        <div class="col-xl-6 hidden">
+            <section class="card card-featured-left card-featured-secondary" >
+                <div class="card-body" id="loadingSection" data-loading-overlay>
                     <div class="widget-summary">
                         <div class="widget-summary-col widget-summary-col-icon">
                             <div class="summary-icon bg-secondary">
@@ -85,11 +85,12 @@
                         </div>
                         <div class="widget-summary-col">
                             <div class="summary"
-                            x-data="{ isUploading: false, progress: 0 }"
-                            x-on:livewire-upload-start="isUploading = true"
-                            x-on:livewire-upload-finish="isUploading = false"
+                            x-data="{ isUploading: false, progress: 0,  }"
+                            x-on:livewire-upload-start="$('#loadingSection').trigger('loading-overlay:show')"
+                            x-on:livewire-upload-finish="$('#loadingSection').trigger('loading-overlay:hide');"
                             x-on:livewire-upload-error="isUploading = false"
                             x-on:livewire-upload-progress="progress = $event.detail.progress"
+                            
                             >
                                 <form action="">
                                     
@@ -97,11 +98,50 @@
                                     {{ csrf_field() }} 
                                     @if ($testImage)
                                         Photo Preview:
-    
                                         <img src="{{ $testImage->temporaryUrl() }}">
                                     @endif
                                     <div wire:loading wire:target="testImage">Uploading...</div>
-                                    <input type="file" accept="image/*;capture=camera" wire:model="testImage"/>
+                                    <input  type="file" 
+                                        accept="image/*;capture=camera" 
+                                        
+                                        id="testImage"
+                                        @change="
+                                        $('#loadingSection').trigger('loading-overlay:show');
+                                            const file = $event.target.files[0];
+                                            if (!file) {
+                                                alert('Changed')
+                                                return;
+                                            }
+                                            compFile = new Compressor(file, {
+                                                quality: 0.2,
+                                                success(result) {
+                                                    //console.log(result);
+                                                    //$wire.testImage = result;
+                                                   // console.log($wire.testImage);
+                                                   // if($wire.testImage)
+                                                   // {alert('Has Something')}
+                                                   // else
+                                                   // {alert('Empty')}
+                                                   // Upload a file:
+                                                   @this.upload('testImage', result, (uploadedFilename) => {
+                                                       // Success callback.
+                                                       alert('Success callback');
+                                                       $('#loadingSection').trigger('loading-overlay:hide');
+                                                   }, () => {
+                                                       // Error callback.
+                                                   }, (event) => {
+                                                       // Progress callback.
+                                                       // event.detail.progress contains a number between 1 and 100 as the upload progresses.
+                                                   })
+
+                                                },
+                                                error(err) {
+                                                    alert(err.message);
+                                                  }
+                                            });
+                                            
+                                        "
+                                    />
                                     <a wire:click="saveImage" class="btn btn-primary" role="button" style="width: 10em; color: white" aria-pressed="true">Save</a>
                                 </form>
                             </div>
@@ -117,7 +157,7 @@
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-xl-4">
+        <div class="col-xl-4 hidden">
             <section class="card card-featured-left card-featured-primary mb-3">
                 <div class="card-body">
                     <div class="widget-summary">
@@ -141,6 +181,7 @@
                 </div>
             </section>
         </div>
+        
         <div class="col-xl-4">
             <section class="card card-featured-left card-featured-secondary">
                 <div class="card-body">
@@ -154,7 +195,7 @@
                             <div class="summary">
                                 <h4 class="title">Total Turn Over</h4>
                                 <div class="info">
-                                    <strong class="amount">{{$turnOver}}</strong>
+                                    <strong class="amount">UGX {{$turnOver}}</strong>
                                 </div>
                             </div>
                             <div class="summary-footer">
@@ -176,7 +217,7 @@
                         </div>
                         <div class="widget-summary-col">
                             <div class="summary">
-                                <h4 class="title">Work Stations</h4>
+                                <h4 class="title">Markets</h4>
                                 <div class="info">
                                     <strong class="amount">{{$placesOfWork}}</strong>
                                 </div>
@@ -189,8 +230,104 @@
                 </div>
             </section>
         </div>
+        <div class="col-xl-4">
+            <section class="card card-featured-left card-featured-primary mb-3">
+                <div class="card-body">
+                    <div class="widget-summary">
+                        <div class="widget-summary-col widget-summary-col-icon">
+                            <div class="summary-icon bg-primary">
+                                <i class="fas fa-landmark"></i>
+                            </div>
+                        </div>
+                        <div class="widget-summary-col">
+                            <div class="summary">
+                                <h4 class="title">Population of Markets</h4>
+                                <div class="info">
+                                    <strong class="amount">{{$populationOfMarkets}}</strong>
+                                    <span>Vendors</span>
+                                </div>
+                            </div>
+                            <div class="summary-footer">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
     <div class="row mb-3">
+        <div class="col-xl-6">
+            <section class="card">
+                <header class="card-header card-header-transparent">
+                    <div class="card-actions">
+                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+                    </div>
+    
+                    <h2 class="card-title">Best Market Enrollment</h2>
+                </header>
+                <div class="card-body">
+                    <div class="sidebar-widget widget-stats">
+                        <div class="widget-header">
+                            <h6>Markets</h6>
+                            <div class="widget-toggle">+</div>
+                        </div>
+                        <div class="widget-content">
+                            <ul>
+                                <li>
+                                    <span class="stats-title">Market 1</span>
+                                    <span class="stats-complete">85%</span>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-primary progress-without-number" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
+                                            <span class="sr-only">85% Complete</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="stats-title">Market 2</span>
+                                    <span class="stats-complete">70%</span>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-primary progress-without-number" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                                            <span class="sr-only">70% Complete</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="stats-title">Market 3</span>
+                                    <span class="stats-complete">2%</span>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-primary progress-without-number" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 2%;">
+                                            <span class="sr-only">2% Complete</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                   
+                </div>
+            </section>
+        </div>
+        <div class="col-xl-6">
+            <section class="card">
+                <header class="card-header card-header-transparent">
+                    <div class="card-actions">
+                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+                    </div>
+    
+                    <h2 class="card-title">Project Stats</h2>
+                </header>
+                <div class="card-body">
+                    @livewire('tables.districts-summary')
+                   
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="row mb-3">
+        
         <div class="col-lg-12 col-xl-6">
             <section class="card">
                 <header class="card-header card-header-transparent">
@@ -267,22 +404,10 @@
                 </div>
             </section>
         </div>
-        <div class="col-xl-6">
-            <section class="card">
-                <header class="card-header card-header-transparent">
-                    <div class="card-actions">
-                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
-                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
-                    </div>
-    
-                    <h2 class="card-title">Project Stats</h2>
-                </header>
-                <div class="card-body">
-                    @livewire('tables.districts-summary')
-                   
-                </div>
-            </section>
-        </div>
     </div>
+
+    
+       
+    
 </div>
 

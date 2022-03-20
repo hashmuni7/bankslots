@@ -19,14 +19,28 @@ class DistrictsTable extends DataTableComponent
     {
         return [
             Column::make("District", "district")
+                ->searchable()
                 ->sortable(),
-            Column::make("Work Stations", "districtid")
+            Column::make("Markets", "districtid")
             ->format(function($value){
                 $holders = Placesofwork::select('*')
+                                    ->where('placesofwork.placesofworkcategoryid', 1)
                                     ->where('placesofwork.districtid', $value)
                                     //->leftjoin('placesofwork', 'accountholders.placesofworkid', 'placesofwork.placesofworkid')
                                     ->count();
-                return  $holders;
+                return  $this->readableThousands($holders);
+                // $registeredMarkets = Market::select('*')->where('districtid', $value)->count();
+                // return $this->readableThousands($registeredMarkets);
+            })
+                ->sortable(),
+            Column::make("Population", "districtid")
+            ->format(function($value){
+                $prospects = Placesofwork::select('prospectivepopulation')
+                                    ->where('placesofwork.placesofworkcategoryid', 1) // 1 is the ID for markets
+                                    ->where('placesofwork.districtid', $value)
+                                    //->leftjoin('placesofwork', 'accountholders.placesofworkid', 'placesofwork.placesofworkid')
+                                    ->sum('prospectivepopulation');
+                return  $this->readableThousands($prospects);
                 // $registeredMarkets = Market::select('*')->where('districtid', $value)->count();
                 // return $this->readableThousands($registeredMarkets);
             })
@@ -34,21 +48,28 @@ class DistrictsTable extends DataTableComponent
             Column::make("Account Holders", "districtid")
             ->format(function($value){
                 $holders = Accountholder::select('*')
+                                    ->where('placesofwork.placesofworkcategoryid', 1)
                                     ->where('placesofwork.districtid', $value)
                                     ->leftjoin('placesofwork', 'accountholders.placesofworkid', 'placesofwork.placesofworkid')
                                     ->count();
-                return  $holders;
+                return  $this->readableThousands($holders);
                 // $registeredVendors = Marketvendor::select('*')->where('markets.districtid', $value)->leftjoin('markets', 'marketvendors.marketid', 'markets.marketid')->count();
                 // return  $this->readableThousands($registeredVendors);
             })
                 ->sortable(),
-            Column::make("Population", "districtid")
+            Column::make("Percentage", "districtid")
                 ->format(function($value){
                     $population = Placesofwork::select('prospectivepopulation')
-                                     ->where('placesofwork.districtid', $value)
-                                     ->sum('prospectivepopulation');
-                    if($population) $population = $this->readableThousands($population);
-                 return  $population;
+                                    ->where('placesofwork.placesofworkcategoryid', 1)
+                                    ->where('placesofwork.districtid', $value)
+                                    ->sum('prospectivepopulation');
+                    $holders = Accountholder::select('*')
+                                    ->where('placesofwork.placesofworkcategoryid', 1)
+                                    ->where('placesofwork.districtid', $value)
+                                    ->leftjoin('placesofwork', 'accountholders.placesofworkid', 'placesofwork.placesofworkid')
+                                    ->count();
+                    $percentage = $population ? round((($holders / $population)* 100)) .'%' : '0%';
+                 return  $percentage;
                     // $registeredPopulation = Market::select('vendorpopulation')->where('districtid', $value)->sum('vendorpopulation');
                     // return $this->readableThousands($registeredPopulation);
                 })

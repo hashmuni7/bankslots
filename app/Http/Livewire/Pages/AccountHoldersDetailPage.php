@@ -130,54 +130,58 @@ class AccountHoldersDetailPage extends Component
 
         if($this->profilePhoto)
         {
-            $image = $this->profilePhoto;
-            $pictureName = 'holderPhoto' . "$newHolder->accountholderid" . '.' . $image->getClientOriginalExtension();
-            $img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
-                $c->aspectRatio();
-                $c->upsize();
-            });
-            $img->orientate();
-            $img->stream(); // <-- Key point
-            Storage::disk('s3')->put('passportphotos' . '/' . $pictureName, $img, 'passportphotos');
-            
-            $newHolder->photo = $pictureName;
+            //$image = $this->profilePhoto;
+            //$pictureName = 'holderPhoto' . "$newHolder->accountholderid" . '.' . $image->getClientOriginalExtension();
+            // $img = ImageManagerStatic::make($image->temporaryUrl())->encode('jpg', 65)->fit(760, null, function ($c) {
+            //     $c->aspectRatio();
+            //     $c->upsize();
+            // });
+            // $img->orientate();
+            // $img->stream(); // <-- Key point
+            //Storage::disk('s3')->put('passportphotos' . '/' . $pictureName, $image, 'passportphotos');
+            $fileName = $this->profilePhoto->store('passportphotos', 's3');
+            $newHolder->photo = $fileName;
         }
 
         if($this->holderCardFront)
         {
-            $image = $this->holderCardFront;
-            $pictureName = 'holder' . "$newHolder->accountholderid" . '.' . $image->getClientOriginalExtension();
-            $img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
-                $c->aspectRatio();
-                $c->upsize();
-            });
-            $img->orientate();
-            $img->stream(); // <-- Key point
-            Storage::disk('s3')->put('idfront' . '/' . $pictureName, $img, 'idfront');
+            // $image = $this->holderCardFront;
+            // $pictureName = 'holder' . "$newHolder->accountholderid" . '.' . $image->getClientOriginalExtension();
+            // $img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
+            //     $c->aspectRatio();
+            //     $c->upsize();
+            // });
+            // $img->orientate();
+            // $img->stream(); // <-- Key point
+            // Storage::disk('s3')->put('idfront' . '/' . $pictureName, $img, 'idfront');
             
-            $newHolder->cardfront = $pictureName;
+            // $newHolder->cardfront = $pictureName;
+            $fileName = $this->holderCardFront->store('idfront', 's3');
+            $newHolder->cardfront = $fileName;
         }
 
         if($this->holderCardBack)
         {
-            $image = $this->holderCardBack;
-            $pictureName = 'holder' . "$newHolder->accountholderid" . '.' . $image->getClientOriginalExtension();
-            $img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
-                $c->aspectRatio();
-                $c->upsize();
-            });
-            $img->orientate();
-            $img->stream(); // <-- Key point
-            Storage::disk('s3')->put('idback' . '/' . $pictureName, $img, 'idback');
+            // $image = $this->holderCardBack;
+            // $pictureName = 'holder' . "$newHolder->accountholderid" . '.' . $image->getClientOriginalExtension();
+            // $img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
+            //     $c->aspectRatio();
+            //     $c->upsize();
+            // });
+            // $img->orientate();
+            // $img->stream(); // <-- Key point
+            // Storage::disk('s3')->put('idback' . '/' . $pictureName, $img, 'idback');
             
-            $newHolder->cardback = $pictureName;
+            //$newHolder->cardback = $pictureName;
+            $fileName = $this->holderCardBack->store('idback', 's3');
+            $newHolder->cardback = $fileName;
         }
         
         $newHolder->save();
 
         $welcomeMessage = "Sales Manager App \n";
         $welcomeMessage .= "Hello $newHolder->name! You have been registered with Sales Manager to get a bank account.";
-        $this->sendWelcomeSMS($newHolder->phonenumber, $welcomeMessage);
+        //$this->sendWelcomeSMS($newHolder->phonenumber, $welcomeMessage);
         $this->flash('success', 'Account Holder Registered' , [
             'position' =>  'top-end', 
             'timer' =>  3000,  

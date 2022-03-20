@@ -16,10 +16,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $accountnumber
  * @property int $bankid
  * @property bool $status
- * @property int $accountholderid
+ * @property int|null $accountholderid
  * 
  * @property Bank $bank
- * @property Accountholder $accountholder
+ * @property Accountholder|null $accountholder
  * @property Collection|Bankaccountsgiven[] $bankaccountsgivens
  *
  * @package App\Models

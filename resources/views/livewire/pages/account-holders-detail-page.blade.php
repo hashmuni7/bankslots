@@ -24,7 +24,7 @@
         </header>
     </x-slot>
 
-    <div class="row">
+    <div class="row" x-data="{idCardFront = false, idCardBack = false}">
         <div class="container-fluid mb-3">
             <section class="card">
                 <header class="card-header card-header-transparent">
@@ -91,7 +91,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group @error('nin') has-danger @enderror">
                                             <label class="col-form-label" for="nin">NIN no</label>
-                                            <input type="text" class="form-control" id="nin" placeholder="" wire:model="nin">
+                                            <input type="text" class="form-control" id="nin" placeholder="" wire:model="nin" >
                                             @error('nin')
                                                 <div>
                                                     <label class="error">                                          
@@ -238,7 +238,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group @error('accountNumber') has-danger @enderror">
                                             <label class="col-form-label" for="accountNumber">Account Number</label>
-                                            <input type="text" class="form-control" id="accountNumber" placeholder="" wire:model="accountNumber">
+                                            <input type="text" class="form-control" id="accountNumber" placeholder=""  wire:model="accountNumber">
                                             @error('accountNumber')
                                                 <div>
                                                     <label class="error">                                          
@@ -318,13 +318,57 @@
                                                         @endif
                                                     <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
 
-                                                    <div>
+                                                    <div x-data="{ isUploading: false, progress: 0,  }"
+                                                    x-on:livewire-upload-start="isUploading = true"
+                                                    x-on:livewire-upload-finish="isUploading = false"
+                                                    x-on:livewire-upload-error="isUploading = false"
+                                                    x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                                    >
                                                         <span class="btn btn-file btn-primary">
                                                             <span class="fileupload-new">Select image</span>
                                                             <span class="fileupload-exists">Change</span>
-                                                            <input type="file" accept="image/*;capture=camera" wire:model="profilePhoto"/>
+                                                            
+                                                            <input  type="file" 
+                                                                accept="image/*;capture=camera" 
+                                                                
+                                                                id="profilePhotoInput"
+                                                                @change="
+                                                                //console.log('Success callback');
+                                                                isUploading = true;
+                                                                const file = $event.target.files[0];
+                                                                if (!file) {
+                                                                    return;
+                                                                }
+                                                                
+                                                                compFile = new Compressor(file, {
+                                                                    quality: 0.2,
+                                                                    success(result) {
+                                                                    @this.upload('profilePhoto', result, (uploadedFilename) => {
+                                                                        // Success callback.
+                                                                        alert('How is this!');
+                                                                        isUploading = false;
+                                                                        //console.log('Success callback');
+                                                                        
+                                                                    }, () => {
+                                                                        // Error callback.
+                                                                    }, (event) => {
+                                                                        // Progress callback.
+                                                                        // event.detail.progress contains a number between 1 and 100 as the upload progresses.
+                                                                        console.log(event.detail.progress);
+                                                                    })
+
+                                                                    },
+                                                                    error(err) {
+                                                                        alert(err.message);
+                                                                    }
+                                                                });
+                                                                "
+                                                            />
                                                         </span>
                                                       <a href="#" class="btn btn-secondary fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                                      <div x-show="isUploading">
+                                                        <progress max="100" x-bind:value="progress"></progress>
+                                                    </div>
                                                     </div>
                                                   </div>
                                             </div>
@@ -369,13 +413,59 @@
                                                         @endif
                                                     <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
 
-                                                    <div>
+                                                    <div x-data="{ isUploadingCardFront: false, progress: 0,  }"
+                                                            x-on:livewire-upload-start="
+                                                                if(idCardFront)
+                                                                    alert('It is working')
+                                                                    isUploadingCardFront = true
+                                                                    "
+                                                            x-on:livewire-upload-finish="isUploadingCardFront = false"
+                                                            x-on:livewire-upload-error="isUploadingCardFront = false"
+                                                            x-on:livewire-upload-progress="progress = $event.detail.progress">
                                                         <span class="btn btn-file btn-primary">
                                                             <span class="fileupload-new">Select image</span>
                                                             <span class="fileupload-exists">Change</span>
-                                                            <input type="file" accept="image/*;capture=camera" wire:model="holderCardFront"/>
+                                                            <input type="file" 
+                                                            accept="image/*;capture=camera" 
+                                                                
+                                                                id="idCardFrontInput"
+                                                                @change="
+                                                                //console.log('Success callback');
+                                                                isUploadingCardFront = true;
+                                                                const file = $event.target.files[0];
+                                                                if (!file) {
+                                                                    return;
+                                                                }
+                                                                
+                                                                compFile = new Compressor(file, {
+                                                                    quality: 0.2,
+                                                                    success(result) {
+                                                                    @this.upload('holderCardFront', result, (uploadedFilename) => {
+                                                                        // Success callback.
+                                                                        alert('How is this!');
+                                                                        isUploadingCardFront = false;
+                                                                        //console.log('Success callback');
+                                                                        
+                                                                    }, () => {
+                                                                        // Error callback.
+                                                                    }, (event) => {
+                                                                        // Progress callback.
+                                                                        // event.detail.progress contains a number between 1 and 100 as the upload progresses.
+                                                                        console.log(event.detail.progress);
+                                                                    })
+
+                                                                    },
+                                                                    error(err) {
+                                                                        alert(err.message);
+                                                                    }
+                                                                });
+                                                                "
+                                                                />
                                                         </span>
                                                       <a href="#" class="btn btn-secondary fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                                      <div x-show="isUploadingCardFront">
+                                                        <progress max="100" x-bind:value="progress"></progress>
+                                                    </div>
                                                     </div>
                                                   </div>
                                             </div>
@@ -420,13 +510,59 @@
                                                         @endif
                                                     <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
 
-                                                    <div>
+                                                    <div x-data="{ isUploadingCardBack: false, progress: 0,  }"
+                                                        x-on:livewire-upload-start="
+                                                            if(idCardBack)
+                                                                alert('It is working')
+                                                                isUploadingCardBack = true
+                                                                "
+                                                        x-on:livewire-upload-finish="isUploadingCardBack = false"
+                                                        x-on:livewire-upload-error="isUploadingCardBack = false"
+                                                        x-on:livewire-upload-progress="progress = $event.detail.progress">
                                                         <span class="btn btn-file btn-primary">
                                                             <span class="fileupload-new">Select image</span>
                                                             <span class="fileupload-exists">Change</span>
-                                                            <input type="file" accept="image/*;capture=camera" wire:model="holderCardBack"/>
+                                                            <input type="file"
+                                                            
+                                                            accept="image/*;capture=camera" 
+                                                                
+                                                                id="idCardBackInput"
+                                                                @change="
+                                                                //console.log('Success callback');
+                                                                isUploadingCardBack = true;
+                                                                const file = $event.target.files[0];
+                                                                if (!file) {
+                                                                    return;
+                                                                }
+                                                                
+                                                                compFile = new Compressor(file, {
+                                                                    quality: 0.2,
+                                                                    success(result) {
+                                                                    @this.upload('holderCardBack', result, (uploadedFilename) => {
+                                                                        // Success callback.
+                                                                        alert('How is this!');
+                                                                        isUploadingCardBack = false;
+                                                                        //console.log('Success callback');
+                                                                        
+                                                                    }, () => {
+                                                                        // Error callback.
+                                                                    }, (event) => {
+                                                                        // Progress callback.
+                                                                        // event.detail.progress contains a number between 1 and 100 as the upload progresses.
+                                                                        console.log(event.detail.progress);
+                                                                    })
+
+                                                                    },
+                                                                    error(err) {
+                                                                        alert(err.message);
+                                                                    }
+                                                                });
+                                                                "/>
                                                         </span>
                                                       <a href="#" class="btn btn-secondary fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                                      <div x-show="isUploadingCardBack">
+                                                        <progress max="100" x-bind:value="progress"></progress>
+                                                    </div>
                                                     </div>
                                                   </div>
                                             </div>
@@ -442,13 +578,16 @@
                                     <div class="col-lg-6">
                                     </div>    
                                 </div>
-                                                              
+                                                             
                                 <div class="row">
                                     <div class="{{$formStatus == $statusInput ? 'col-lg-6' : 'col-lg-8'}}">
                                                                                   
                                             
                                                 @if ($formStatus == $statusInput)
-                                                <a wire:click="addHolder" class="btn btn-primary" role="button" style="width: 10em; color: white" aria-pressed="true">Save</a>
+                                                <a wire:click="addHolder" class="btn btn-primary " wire:loading.class="disabled" role="button" style="width: 10em; color: white" aria-pressed="true">
+                                                    <i class="fa fa-spinner fa-spin" wire:loading wire:target="addHolder"></i> Save
+                                                    
+                                                </a>
                                                 @else
                                                     Update 
                                                 @endif 

@@ -3,6 +3,9 @@
 namespace App\Http\Livewire\Pages;
 
 use App\Models\Accountholder;
+use App\Models\Bank;
+use App\Models\Bankaccountsreserved;
+use App\Models\Bankbranch;
 use App\Models\Businessnaturecategory;
 use App\Models\Placesofwork;
 use App\Models\Placesofworkcategory;
@@ -58,6 +61,15 @@ class AccountHoldersUpdatePage extends Component
     public $holderCardFrontUpdated = false;
     public $holderCardBackUpdated = false;
     public $accountholder;
+
+    
+    public $banks;
+    public $bank;
+    public $bankBranchs;
+    public $bankBranch;
+    public $approvedAccountNumber;
+    
+    
 
     // protected $rules = [
     //     'name' => 'required|min:6',
@@ -115,6 +127,10 @@ class AccountHoldersUpdatePage extends Component
         $this->holderCardBack = $this->theAccountHolder->cardback;
         $this->accountholder = $this->theAccountHolder->accountholderid;
 
+        $this->banks = Bank::select('*')->get();
+        $this->bankBranchs = Bankbranch::select('*')->get();
+        //$this->approvedAccountNumber = 
+
        // dd($this->dob);
 
     }
@@ -149,6 +165,12 @@ class AccountHoldersUpdatePage extends Component
                                         ->where('placesofworkcategoryid', $this->placeOfWorkCategory)->get();
         $this->businessNatureCategorys = Businessnaturecategory::select('*')
                                         ->where('placesofworkcategoryid', $this->placeOfWorkCategory)->get();
+    }
+
+    public function updatedBank()
+    {
+        $this->bankBranchs = Bankbranch::select('*')
+                            ->where('bankid', $this->bank)->get();
     }
 
     public function updatedProfilePhoto()
@@ -213,13 +235,13 @@ class AccountHoldersUpdatePage extends Component
             
             $image = $this->profilePhoto;
             $pictureName = 'holderPhoto' . $this->theAccountHolder->accountholderid . '.' . $image->getClientOriginalExtension();
-            $img = ImageManagerStatic::make($image->getRealPath())->encode('jpg', 65)->fit(760, null, function ($c) {
+            $img = ImageManagerStatic::make($this->profilePhoto)->encode('jpg', 65)->fit(760, null, function ($c) {
                 $c->aspectRatio();
                 $c->upsize();
             });
             $img->orientate();
             $img->stream(); // <-- Key point
-            Storage::disk('s3')->put('passportphotos' . '/' . $pictureName, $img, 'passportphotos');
+            Storage::disk('s3')->put('passportphotos' . '/' . $pictureName, $image, 'passportphotos');
             
             $newHolder->photo = $pictureName;
         }
@@ -281,6 +303,56 @@ class AccountHoldersUpdatePage extends Component
         $this->accountType = null;
         $this->nextOfKinName = null;
         $this->nextOfKinContact = null;
+    }
+
+    public function assignAccount()
+    {
+        // for ($i=0; $i < 20; $i++) { 
+        //     Bankaccountsreserved::create([
+        //         'accountnumber' => $this->randNum(15),
+        //         'bankid' => 17,
+        //         'status' => false
+        //     ]);
+        // }
+        // //$this->randNum(15);
+        // $this->alert('success', 'Account Assigned' , [
+        //     'position' =>  'top-end', 
+        //     'timer' =>  3000,  
+        //     'toast' =>  true,  
+        // ]);
+        $accountHolder = Bankaccountsreserved::where('bankid', 17)
+                                            ->whereAnd('status', false)
+                                            ->orderBy('bankaccountsreservedid', 'asc')->first();
+        if($accountHolder)
+        {
+            $accountHolder->accountholderid = $this->theAccountHolder->accountholderid;
+            $accountHolder->status = true;
+            $accountHolder->save();
+            $this->approvedAccountNumber = $accountHolder->accountnumber;
+            $this->alert('success', 'Bank Account Assigned' , [
+                'position' =>  'top-end', 
+                'timer' =>  3000,  
+                'toast' =>  true,  
+            ]);
+        }
+        else{
+            $this->alert('error', 'No bank account to assign' , [
+                'position' =>  'top-end', 
+                'timer' =>  3000,  
+                'toast' =>  true,  
+            ]);
+        }
+
+    }
+
+
+    public function randNum($length)
+    {
+        $str = mt_rand(1, 9); // first number (0 not allowed)
+        for ($i = 1; $i < $length; $i++)
+            $str .= mt_rand(0, 9);
+
+        return $str;
     }
 
 

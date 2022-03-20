@@ -290,6 +290,66 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-4">
+                                        <div class="form-group @error('bank') has-danger @enderror">
+                                            <label class="col-form-label" for="placeOfWork">Bank</label>
+                                            <select name="bank"  wire:model="bank" class="form-select form-control">
+                                                <option value="">Select Bank</option>
+                                                @foreach ($banks as $bank)
+                                                    <option value="{{$bank->bankid}}">{{$bank->bank}}</option> 
+                                                @endforeach
+                                            </select>
+                                            @error('bank')
+                                                <div>
+                                                    <label class="error">                                          
+                                                        <strong>{{ $message }}</strong>
+                                                    </label>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group @error('bankBranch') has-danger @enderror">
+                                            <label class="col-form-label" for="bankBranch">Bank Branch</label>
+                                            <select name="bankBranch"  wire:model="bankBranch" class="form-select form-control">
+                                                <option value="">Select Bank Branch</option>
+                                                @foreach ($bankBranchs as $bankBranch)
+                                                    <option value="{{$bankBranch->bankbranchid}}">{{$bankBranch->bankbranch}}</option> 
+                                                @endforeach
+                                            </select>
+                                            @error('bankBranch')
+                                                <div>
+                                                    <label class="error">                                          
+                                                        <strong>{{ $message }}</strong>
+                                                    </label>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            
+                                            <a wire:click="assignAccount" class="btn btn-primary" role="button" style="width: 10em" aria-pressed="true">Assign Account</a>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-8">
+                                            <div class="form-group @error('approvedAccountNumber') has-danger @enderror">
+                                                <label class="col-form-label" for="approvedAccountNumber">Approved Account Number</label>
+                                                <input type="text" class="form-control" id="approvedAccountNumber" placeholder="" wire:model="approvedAccountNumber" disabled>
+                                                @error('approvedAccountNumber')
+                                                    <div>
+                                                        <label class="error">                                          
+                                                            <strong>{{ $message }}</strong>
+                                                        </label>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-lg-6">
                                         <div class="form-group @error('profilePhoto') has-danger @enderror">
@@ -298,8 +358,8 @@
                                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                                         @if ($profilePhoto)
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("passportphotos/$profilePhoto")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("passportphotos/$profilePhoto")}}">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("$profilePhoto")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("$profilePhoto")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -349,8 +409,8 @@
                                                     
                                                         @if ($holderCardFront)
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("idfront/$holderCardFront")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("idfront/$holderCardFront")}}">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("$holderCardFront")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("$holderCardFront")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>
@@ -400,8 +460,8 @@
                                                     
                                                         @if ($holderCardBack)
                                                             <div class="fileupload-new thumbnail-gallery">
-                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("idback/$holderCardBack")}}" data-plugin-options='{ "type":"image" }'>
-                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("idback/$holderCardBack")}}">
+                                                                <a class="img-thumbnail lightbox" href="{{Storage::disk('s3')->url("$holderCardBack")}}" data-plugin-options='{ "type":"image" }'>
+                                                                    <img class="img-fluid" width="215" src="{{Storage::disk('s3')->url("$holderCardBack")}}">
                                                                     <span class="zoom">
                                                                         <i class="fas fa-search"></i>
                                                                     </span>

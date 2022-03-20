@@ -52,7 +52,7 @@ class PlacesOfWorkPage extends Component
             'prospectivepopulation' => $this->prospectivePopulation,
             'contactname' => $this->contactName,
             'contactphone' => $this->contactPhone,
-            'placesofworkcategoryid' => $this->placeOfWorkCategory
+            'placesofworkcategoryid' => 1
         ]);
         
         $this->alert('success', 'Station Registered' , [

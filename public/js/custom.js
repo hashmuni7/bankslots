@@ -88,25 +88,79 @@ function backUpDatabase()
     });
 }
 
+
+
 // jQuery.fn.ready = (fn)->
 //     $(this).on 'turbolinks:load', fn
 $(document).ready(function () {
     
-    $.ajaxSetup({
-        beforeSend: function(xhr, options){
-            options.url = baseUrl + options.url;
-        }
-    });
-    $('.sortable-icon').hide()
-    $('.sortable').hover(
-        function (){$(this).find('.sortable-icon').removeClass('.invisible')},
-        function (){$(this).find('.sortable-icon').addClass('invisible')}
-    );
+    // $.ajaxSetup({
+    //     beforeSend: function(xhr, options){
+    //         options.url = baseUrl + options.url;
+    //     }
+    // });
+    // $('.sortable-icon').hide()
+    // $('.sortable').hover(
+    //     function (){$(this).find('.sortable-icon').removeClass('.invisible')},
+    //     function (){$(this).find('.sortable-icon').addClass('invisible')}
+    // );
 
-    $('#landlordsTable').DataTable();
-    
-    
+    // $('#landlordsTable').DataTable();
 
+
+    // document.getElementById('testImage').addEventListener('change', (e) => {
+    //     //$this.showMe();
+    //     const file = e.target.files[0];
+    //     console.log(file);
+        
+    //     if (!file) {
+    //       return;
+    //     }
+    //     //console.log("It works");
+    //     compFile = new Compressor(file, {
+    //       quality: 0.6,
+    //     // The compression process is asynchronous,
+    //       // which means you have to access the `result` in the `success` hook function.
+    //       success(result) {
+    //         // const formData = new FormData();
+    //         //alert($wire.turnOver);
+    //         // // The third parameter is required for server
+    //         // formData.append('file', result, result.name);
+      
+    //         // // Send the compressed image file to server with XMLHttpRequest.
+    //         // axios.post('/path/to/upload', formData).then(() => {
+    //             // console.log("Before Change");
+    //             // console.log(document.getElementById('testImage').files[0]);
+    //             // console.log("The Change");
+    //             // console.log(result);
+    //             // document.getElementById('testImage').files[0] = result;
+    //             // console.log("After Change");
+    //             // console.log(document.getElementById('testImage').files[0]);
+    //          // console.log(result);
+    //           //console.log(e.target.files[0]);
+    //         // });
+    //       },
+    //       error(err) {
+    //         console.log(err.message);
+    //       }
+        
+    //     });
+    //     console.log("Finish");
+    //     console.log(compFile);
+    //   });
+
+            //  compress = new Compress();
+            
+
+            // compress
+            // .attach("#testImage", {
+            //     size: 4,
+            //     quality: 0.75
+            // })
+            // .then((data) => {
+            //     alert(compress);
+            //     console.log(data);
+            // });
     
 });
 

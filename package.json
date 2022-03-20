@@ -24,6 +24,7 @@
     "dependencies": {
         "@tailwindcss/postcss7-compat": "^2.0.2",
         "autoprefixer": "^9.8.6",
+        "compressorjs": "^1.1.1",
         "postcss": "^7.0.35",
         "sweetalert2": "^10.15.5",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",

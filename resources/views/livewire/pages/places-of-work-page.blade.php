@@ -1,12 +1,12 @@
 <div>
     <x-slot name="title">
-        Work Stations
+        Markets
     </x-slot>
     
 
     <x-slot name="header">
         <header class="page-header">
-            <h2>Work Stations</h2>
+            <h2>Markets</h2>
         
             <div class="right-wrapper text-right">
                 <ol class="breadcrumbs">
@@ -16,7 +16,7 @@
                         </a>
                     </li>
                     <li><span>New</span></li>
-                    <li><span>Work Stations</span></li>                     
+                    <li><span>Markets</span></li>                     
                 </ol>
         
                 <a class="sidebar-right-toggle" ><i class="fas fa-chevron-left"></i></a>
@@ -32,7 +32,7 @@
                         
                     </div>
     
-                    <h2 class="card-title">Work Station Information</h2>
+                    <h2 class="card-title">Market Information</h2>
                     <p class="card-subtitle">{{--$landlord->id--}}</p>
                 </header>
                 <div class="card-body">
@@ -47,9 +47,9 @@
                                     >
                                         {{ csrf_field() }} 
                                         <div class="row form-group">
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-6">
                                             <div class="form-group @error('placeOfWork') has-danger @enderror">
-                                                <label class="col-form-label" for="placeOfWork">Work Station Name</label>
+                                                <label class="col-form-label" for="placeOfWork">Market Name</label>
                                                 <input type="text" class="form-control" id="placeOfWork" placeholder="" wire:model="placeOfWork">
                                                 @error('placeOfWork')
                                                     <div>
@@ -60,8 +60,26 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group @error('district') has-danger @enderror">
+                                                <label class="col-form-label" for="district">District</label>
+                                                <select name="district"  wire:model="district" class="form-select form-control">
+                                                    <option value="">Select District</option>
+                                                    @foreach ($districts as $district)
+                                                        <option value="{{$district->districtid}}">{{$district->district}}</option> 
+                                                    @endforeach
+                                                </select>
+                                                @error('district')
+                                                    <div>
+                                                        <label class="error">                                          
+                                                            <strong>{{ $message }}</strong>
+                                                        </label>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                 </div>
-                                <div class="row form-group">
+                                <div class="row form-group hidden">
                                         <div class="col-lg-4">
                                             <div class="form-group @error('placeOfWorkCategory') has-danger @enderror">
                                                 <label class="col-form-label" for="placeOfWorkCategory">Work Station Category</label>
@@ -80,24 +98,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group @error('district') has-danger @enderror">
-                                                <label class="col-form-label" for="district">District</label>
-                                                <select name="district"  wire:model="district" class="form-select form-control">
-                                                    <option value="">Select District</option>
-                                                    @foreach ($districts as $district)
-                                                        <option value="{{$district->districtid}}">{{$district->district}}</option> 
-                                                    @endforeach
-                                                </select>
-                                                @error('district')
-                                                    <div>
-                                                        <label class="error">                                          
-                                                            <strong>{{ $message }}</strong>
-                                                        </label>
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        
 
                                 </div>
                                 <div class="row form-group">

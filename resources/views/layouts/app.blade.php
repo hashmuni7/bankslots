@@ -61,13 +61,17 @@
 
         @yield('pagecs')
         @livewireStyles
-
-        
-         
-           
+    
     </head>
 
     <body>
+        <div class="loading-overlay">
+			<div class="bounce-loader">
+				<div class="bounce1"></div>
+				<div class="bounce2"></div>
+				<div class="bounce3"></div>
+			</div>
+		</div>
             <!-- The banner contains some code that may be needed for requests and responses -->
             <x-jet-banner />
             <section class="body">
@@ -173,28 +177,28 @@
                                         <li class="nav-parent">
                                             <a class="nav-link" href="#">
                                                 <i class="fas fa-industry" aria-hidden="true"></i>
-                                                <span>Places of work</span>
+                                                <span>Markets</span>
                                             </a>
                                             
                                             <ul class="nav nav-children">
                                                 <li>
-                                                    <a class="nav-link" href="{{ url('/newplacesofworkcategorypage') }}">
+                                                    <a class="nav-link hidden" href="{{ url('/newplacesofworkcategorypage') }}">
                                                       New Place of work
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="nav-link" href="{{ url('/placesofworkcategorypage') }}">
+                                                    <a class="nav-link hidden" href="{{ url('/placesofworkcategorypage') }}">
                                                       Places of work
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="nav-link" href="{{ url('/newbusinessnaturecategorypage') }}">
+                                                    <a class="nav-link hidden" href="{{ url('/newbusinessnaturecategorypage') }}">
                                                       Business Nature
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="nav-link" href="{{ url('/placesofworkstationspage') }}">
-                                                      Work Stations
+                                                      Markets
                                                     </a>
                                                 </li>
                                             </ul>
@@ -250,7 +254,7 @@
                                             </a>                        
                                         </li>
                                         <li>
-                                            <a class="nav-link" href="{{ url('/banks') }}">
+                                            <a class="nav-link hidden" href="{{ url('/banks') }}">
                                                 <i class="fas fa-landmark" aria-hidden="true"></i>
                                                 <span>Banks</span>
                                             </a>                        
@@ -362,6 +366,7 @@
             
             <!-- Theme Custom -->
             <script src="{{ URL::asset('js/custom.js') }}" ></script>
+            <script src="{{ URL::asset('js/compress.js') }}" ></script>
             
             
             <!-- Theme Initialization Files -->

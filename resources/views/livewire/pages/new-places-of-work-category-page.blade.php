@@ -96,21 +96,6 @@
             </section>
         </div>
     </div>
-    <div class="row">
-        <div class="container-fluid mb-3">
-            <section class="card">
-                <header class="card-header card-header-transparent">
-                    <div class="card-actions">
-                        
-                    </div>
-    
-                    <h2 class="card-title">Business Nature At Place of Work</h2>
-                    <p class="card-subtitle">{{--$landlord->id--}}</p>
-                </header>
-                                   
-            </section>
-        </div>
-    </div>
 
     @section('pagejs')
         <!-- Code to handle Admin Requests-->
