@@ -345,7 +345,7 @@
                                                                     success(result) {
                                                                     @this.upload('profilePhoto', result, (uploadedFilename) => {
                                                                         // Success callback.
-                                                                        alert('How is this!');
+                                                                        //alert('How is this!');
                                                                         isUploading = false;
                                                                         //console.log('Success callback');
                                                                         
@@ -442,7 +442,7 @@
                                                                     success(result) {
                                                                     @this.upload('holderCardFront', result, (uploadedFilename) => {
                                                                         // Success callback.
-                                                                        alert('How is this!');
+                                                                       // alert('How is this!');
                                                                         isUploadingCardFront = false;
                                                                         //console.log('Success callback');
                                                                         
@@ -540,7 +540,7 @@
                                                                     success(result) {
                                                                     @this.upload('holderCardBack', result, (uploadedFilename) => {
                                                                         // Success callback.
-                                                                        alert('How is this!');
+                                                                       // alert('How is this!');
                                                                         isUploadingCardBack = false;
                                                                         //console.log('Success callback');
                                                                         

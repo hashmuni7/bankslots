@@ -8,10 +8,11 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\District;
 use App\Models\Accountholder;
 use App\Models\Placesofwork;
+use App\Traits\Figures;
 
 class DistrictsSummary extends DataTableComponent
 {
-
+    use Figures;
     public function columns(): array
     {
         return [
@@ -31,7 +32,7 @@ class DistrictsSummary extends DataTableComponent
                 $population = Placesofwork::select('prospectivepopulation')
                                      ->where('placesofwork.districtid', $value)
                                      ->sum('prospectivepopulation');
-                 return  $population; //$this->readableThousands($registeredVendors);
+                 return $this->readableThousands($population);
              })
                 ->sortable(),
         ];
