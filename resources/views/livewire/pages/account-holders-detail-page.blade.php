@@ -120,7 +120,7 @@
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 hidden">
                                         <div class="form-group @error('placeOfWorkCategory') has-danger @enderror">
                                             <label class="col-form-label" for="placeOfWork">Work Station Category</label>
                                             <select name="placeOfWorkCategory"  wire:model="placeOfWorkCategory" class="form-select form-control">
@@ -138,9 +138,9 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-8">
                                         <div class="form-group @error('placeOfWork') has-danger @enderror">
-                                            <label class="col-form-label" for="placeOfWork">Work Station</label>
+                                            <label class="col-form-label" for="placeOfWork">Market</label>
                                             <select name="placeOfWork"  wire:model="placeOfWork" class="form-select form-control">
                                                 <option value="">Select Work Station</option>
                                                 @foreach ($placesOfWork as $placeOfWork)

@@ -21,6 +21,7 @@ class PlacesOfWorkStationsTable extends DataTableComponent
     {
         return [
             Column::make("Market", "placeofwork")
+                ->searchable()
                 ->sortable(),
             Column::make("Districtid", "district")
                 ->sortable(),

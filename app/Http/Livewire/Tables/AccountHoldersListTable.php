@@ -34,8 +34,9 @@ class AccountHoldersListTable extends DataTableComponent
             // Column::make("Accountholderid", "accountholderid")
             //     ->sortable(),
             Column::make("Name", "name")
+                ->searchable()
                 ->sortable(),
-            Column::make("Work Station", "placeofwork")
+            Column::make("Market", "placeofwork")
                 ->sortable(),
             Column::make("Business Nature", "category")
                 ->sortable(),
